@@ -12,23 +12,11 @@ export default {
     return {
 
     };
-  },
-
-  components: {},
-
-  computed: {},
-
-  beforeMount() {},
-
-  mounted() {},
-
-  methods: {},
-
-  watch: {}
+  }
 
 }
 </script>
 
-<style  scoped>
+<style lang='' scoped>
 
 </style>
