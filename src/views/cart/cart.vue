@@ -1,23 +1,27 @@
 <template>
-  <div>
-    <h2>cart</h2>
-  </div>
+<div>
+  <NavBar>
+    <div slot="center">购物车</div>
+  </NavBar>
+  <h2>购物车</h2>
+</div>
 </template>
 
 <script>
+import NavBar from '../../components/common/navbar/NavBar'
+export default {
+  name: "Cart",
+  data() {
+    return {
 
-  export default {
-    name:'',
-    props:[''],
-    data () {
-      return {
-
-      };
     }
-
+  },
+  components: {
+    NavBar
   }
-
+}
 </script>
-<style lang='' scoped>
+
+<style scoped>
 
 </style>
