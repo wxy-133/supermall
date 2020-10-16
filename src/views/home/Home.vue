@@ -3,12 +3,14 @@
   <NavBar class="home-nav">
     <div slot="center">首页</div>
   </NavBar>
-  <h2>home</h2>
+ <HomeSwiper :banners="banners"/>
 </div>
 </template>
 
 <script>
 import NavBar from '../../components/common/navbar/NavBar'
+import HomeSwiper from './childComps/HomeSwiper'
+
 import {getMultidata} from '../../network/getHome'
 export default {
   name: 'Home',
@@ -19,7 +21,8 @@ export default {
     };
   },
   components: {
-    NavBar
+    NavBar,
+   HomeSwiper
   },
   created() {
     getMultidata().then(res=>{
