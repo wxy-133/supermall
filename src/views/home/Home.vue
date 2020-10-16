@@ -9,18 +9,25 @@
 
 <script>
 import NavBar from '../../components/common/navbar/NavBar'
-
+import {getMultidata} from '../../network/getHome'
 export default {
   name: 'Home',
-  props: [''],
   data() {
     return {
-
+     banners:[],
+     recommends:[]
     };
   },
   components: {
     NavBar
-  }
+  },
+  created() {
+    getMultidata().then(res=>{
+      console.log(res)
+      this.banners =res.data.banner.list;
+      this.recommends=res.data.recommend.list
+    })
+  },
 }
 </script>
 
