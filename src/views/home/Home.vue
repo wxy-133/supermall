@@ -6,6 +6,7 @@
   <HomeSwiper :banners="banners" />
   <RecommendView :recommends="recommends" />
   <FeatureView />
+  <tabControl class="tab-control" :titles="titles" />
   <ul>
     <li>111</li>
     <li>111</li>
@@ -17,7 +18,6 @@
     <li>111</li>
     <li>111</li>
     <li>111</li>
-
     <li>111</li>
     <li>111</li>
     <li>111</li>
@@ -28,16 +28,38 @@
     <li>111</li>
     <li>111</li>
     <li>111</li>
-
+    <li>111</li>
+    <li>111</li>
+    <li>111</li>
+    <li>111</li>
+    <li>111</li>
+    <li>111</li>
+    <li>111</li>
+    <li>111</li>
+    <li>111</li>
+    <li>111</li>
+    <li>111</li>
+    <li>111</li>
+    <li>111</li>
+    <li>111</li>
+    <li>111</li>
+    <li>111</li>
+    <li>111</li>
+    <li>111</li>
+    <li>111</li>
+    <li>111</li>
   </ul>
 </div>
 </template>
 
 <script>
 import NavBar from '../../components/common/navbar/NavBar'
+import tabControl from '../../components/common/tabControl/TabControl'
+//
 import HomeSwiper from './childComps/HomeSwiper'
 import RecommendView from './childComps/RecommendView'
 import FeatureView from './childComps/FeatureView'
+// 
 import {
   getMultidata
 } from '../../network/getHome'
@@ -46,14 +68,18 @@ export default {
   data() {
     return {
       banners: [],
-      recommends: []
+      recommends: [],
+      titles: ["流行", "新款",
+        "精选"
+      ]
     };
   },
   components: {
     NavBar,
     HomeSwiper,
     RecommendView,
-    FeatureView
+    FeatureView,
+    tabControl
   },
   created() {
     getMultidata().then(res => {
@@ -76,5 +102,9 @@ export default {
   top: 0px;
   left: 0px;
   right: 0px
+}
+.tab-control{
+  position: sticky;
+  top:44px;
 }
 </style>
