@@ -61,7 +61,7 @@ import RecommendView from './childComps/RecommendView'
 import FeatureView from './childComps/FeatureView'
 // 
 import {
-  getMultidata
+  getMultidata,getHomeGoods
 } from '../../network/getHome'
 export default {
   name: 'Home',
@@ -70,8 +70,12 @@ export default {
       banners: [],
       recommends: [],
       titles: ["流行", "新款",
-        "精选"
-      ]
+        "精选", ],
+      goods:{
+        'pop':{page:0,list:[]},
+        'new':{page:0,list:[]},
+        'sell':{page:0,list:[]}
+      }
     };
   },
   components: {
@@ -82,12 +86,33 @@ export default {
     tabControl
   },
   created() {
-    getMultidata().then(res => {
+    // 一般放主要逻辑
+
+    // 请求多个数据
+    this.getMultidata();
+    //请求商品数据
+    this.getHomeGoods('pop');
+    this.getHomeGoods('new');
+    this.getHomeGoods('sell');
+  },
+  methods:{
+    getMultidata(){
+      getMultidata().then(res => {
       console.log(res)
       this.banners = res.data.banner.list;
       this.recommends = res.data.recommend.list
+       })
+     },
+    getHomeGoods(type){
+       const page =this.goods[type].page+1//动态获取页码
+       getHomeGoods(type,page).then(res=>{
+      //  console.log(res);
+        this.goods[type].list.push(...res.data.list);
+        this.goods[type].page+=1;
+
     })
-  },
+    }
+  }
 }
 </script>
 
