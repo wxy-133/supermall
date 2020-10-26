@@ -7,48 +7,7 @@
   <RecommendView :recommends="recommends" />
   <FeatureView />
   <tabControl class="tab-control" :titles="titles" />
-  <ul>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-    <li>111</li>
-  </ul>
+   <GoodsList :goods="goods['pop'].list"/>
 </div>
 </template>
 
@@ -59,6 +18,7 @@ import tabControl from '../../components/common/tabControl/TabControl'
 import HomeSwiper from './childComps/HomeSwiper'
 import RecommendView from './childComps/RecommendView'
 import FeatureView from './childComps/FeatureView'
+import GoodsList from '../../components/content/goods/GoodsList'
 // 
 import {
   getMultidata,getHomeGoods
@@ -83,7 +43,8 @@ export default {
     HomeSwiper,
     RecommendView,
     FeatureView,
-    tabControl
+    tabControl,
+    GoodsList
   },
   created() {
     // 一般放主要逻辑
@@ -108,7 +69,7 @@ export default {
        getHomeGoods(type,page).then(res=>{
       //  console.log(res);
         this.goods[type].list.push(...res.data.list);
-        this.goods[type].page+=1;
+        this.goods[type].page+=1;//
 
     })
     }
