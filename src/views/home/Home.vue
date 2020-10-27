@@ -51,7 +51,6 @@ export default {
   },
   created() {
     // 一般放主要逻辑
-
     // 请求多个数据
     this.getMultidata();
     //请求商品数据
