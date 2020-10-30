@@ -6,29 +6,18 @@
 
 <script>
 export default {
-  name: 'My',
+  name: 'my',
   props: [''],
   data() {
     return {
 
     };
   },
-
-  components: {},
-
-  computed: {},
-
-  beforeMount() {},
-
-  mounted() {},
-
-  methods: {},
-
-  watch: {}
+  components: {}
 
 }
 </script>
 
-<style  scoped>
+<style lang='' scoped>
 
 </style>

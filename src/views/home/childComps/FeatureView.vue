@@ -1,13 +1,15 @@
 <template>
-<div>
-  <h2>home</h2>
+<div class="featureview">
+  <a href="www.baoidu.com"> <img src="../../../assets/img/home/recommend_bg.jpg"></a>
 </div>
 </template>
 
 <script>
 export default {
-  name: 'Home',
-  props: [''],
+  name: 'FeatureView',
+  props: {
+
+  },
   data() {
     return {
 
@@ -29,6 +31,8 @@ export default {
 }
 </script>
 
-<style  scoped>
-
+<style scoped>
+img {
+  width: 100%;
+}
 </style>
