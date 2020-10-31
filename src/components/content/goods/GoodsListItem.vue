@@ -10,39 +10,20 @@
 </template>
 
 <script>
-
   export default {
-    name:'GoodsListItem',
-    props:{
-      goodsItem:{
-        type:Object,
-        default(){
-          return []
+    name: "GoodsListItem",
+    props: {
+      goodsItem: {
+        type: Object,
+        default() {
+          return {}
         }
       }
-    },
-    data () {
-      return {
-
-      };
-    },
-
-    components: {},
-
-    computed: {},
-
-    beforeMount() {},
-
-    mounted() {},
-
-    methods: {},
-
-    watch: {}
-
+    }
   }
-
 </script>
-<style  scoped>
+
+<style scoped>
   .goods-item {
     padding-bottom: 40px;
     position: relative;
@@ -88,6 +69,6 @@
     top: -1px;
     width: 14px;
     height: 14px;
-    background: url("/assets/img/common/collect.svg") 0 0/14px 14px;
+    background: url("~assets/img/common/collect.svg") 0 0/14px 14px;
   }
 </style>

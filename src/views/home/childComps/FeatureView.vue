@@ -1,38 +1,19 @@
 <template>
-<div class="featureview">
-  <a href="www.baoidu.com"> <img src="../../../assets/img/home/recommend_bg.jpg"></a>
-</div>
+  <div class="feature">
+    <a href="https://act.mogujie.com/zzlx67">
+      <img src="~assets/img/home/recommend_bg.jpg" alt="">
+    </a>
+  </div>
 </template>
 
 <script>
-export default {
-  name: 'FeatureView',
-  props: {
-
-  },
-  data() {
-    return {
-
-    };
-  },
-
-  components: {},
-
-  computed: {},
-
-  beforeMount() {},
-
-  mounted() {},
-
-  methods: {},
-
-  watch: {}
-
-}
+  export default {
+    name: "FeatureView"
+  }
 </script>
 
 <style scoped>
-img {
-  width: 100%;
-}
+  .feature img {
+    width: 100%;
+  }
 </style>
