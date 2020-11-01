@@ -72,8 +72,11 @@
       this.getHomeGoods('new')
       this.getHomeGoods('sell')
 
-      //开始图片加载
-      this.$bus.$on('imageLoad',()=>{
+   
+    },
+    mounted(){
+         //监听图片加载
+       this.$bus.$on('imageLoad',()=>{
         // console.log('---')
         this.$refs.scroll.refresh()
       })
