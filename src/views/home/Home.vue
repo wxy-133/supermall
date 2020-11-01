@@ -32,7 +32,7 @@
   import BackTop from 'components/content/backTop/BackTop'
 
   import { getHomeMultidata, getHomeGoods } from "network/home"
-
+  import {debounce} from 'common/util'
   export default {
     name: "Home",
     components: {
@@ -76,7 +76,7 @@
     },
     mounted(){
          //监听图片加载
-      const refresh = this.debounce(this.$refs.scroll.refresh,500)
+      const refresh = debounce(this.$refs.scroll.refresh,500)
        this.$bus.$on('imageLoad',()=>{
         // console.log('---')
        refresh()
@@ -86,15 +86,15 @@
       /**
        * 事件监听相关的方法
        */
-       debounce(func,delay){
-        let timer = null
-        return function(...args){
-         if(timer) clearTimeout(timer)
-         timer = setTimeout(()=>{
-           func.apply(this,args)
-         },delay)
-        }
-       },
+      //  debounce(func,delay){
+      //   let timer = null
+      //   return function(...args){
+      //    if(timer) clearTimeout(timer)
+      //    timer = setTimeout(()=>{
+      //      func.apply(this,args)
+      //    },delay)
+      //   }
+      //  },
       tabClick(index) {
         switch (index) {
           case 0:
