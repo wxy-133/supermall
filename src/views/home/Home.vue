@@ -71,6 +71,12 @@
       this.getHomeGoods('pop')
       this.getHomeGoods('new')
       this.getHomeGoods('sell')
+
+      //开始图片加载
+      this.$bus.$on('imageLoad',()=>{
+        // console.log('---')
+        this.$refs.scroll.refresh()
+      })
     },
     methods: {
       /**
@@ -110,12 +116,11 @@
         })
       },
       getHomeGoods(type) {
-        const page = this.goods[type].page + 1
+        const page = this.goods[type].page + 1//当前页码加一
         getHomeGoods(type, page).then(res => {
           console.log(res)
           this.goods[type].list.push(...res.data.list)
-          this.goods[type].page += 1
-
+          this.goods[type].page += 1; //当前页码
           this.$refs.scroll.finishPullUp()
         })
       }
