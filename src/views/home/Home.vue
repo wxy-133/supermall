@@ -76,15 +76,25 @@
     },
     mounted(){
          //监听图片加载
+      const refresh = this.debounce(this.$refs.scroll.refresh,500)
        this.$bus.$on('imageLoad',()=>{
         // console.log('---')
-        this.$refs.scroll.refresh()
+       refresh()
       })
     },
     methods: {
       /**
        * 事件监听相关的方法
        */
+       debounce(func,delay){
+        let timer = null
+        return function(...args){
+         if(timer) clearTimeout(timer)
+         timer = setTimeout(()=>{
+           func.apply(this,args)
+         },delay)
+        }
+       },
       tabClick(index) {
         switch (index) {
           case 0:
