@@ -36,15 +36,23 @@
       })
 
       // 2.监听滚动的位置
+      
       this.scroll.on('scroll', (position) => {
         // console.log(position);
         this.$emit('scroll', position)
       })
+      
 
       // 3.监听上拉事件
-      this.scroll.on('pullingUp', () => {
-        this.$emit('pullingUp')
-      })
+      // this.scroll.on('pullingUp', () => {
+      //   this.$emit('pullingUp')
+      // })
+      //监听滚动到底部
+      if(this.pullLoad){
+         this.scroll.on('pullingUp',()=>{
+          this.$emit('pullingUp')
+         })
+      }
     },
     methods: {
       scrollTo(x, y, time=300) {

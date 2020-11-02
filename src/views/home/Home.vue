@@ -1,21 +1,26 @@
 <template>
   <div id="home" class="wrapper">
     <nav-bar class="home-nav"><div slot="center">购物街</div></nav-bar>
+    <tab-control   class="tab-control2"
+                   :titles="['流行', '新款', '精选']"
+                   @tabClick="tabClick" 
+                   ref="tabOffsetTop1"
+                   v-show="isTabFixed"/>
     <scroll class="content"
             ref="scroll"
             :probe-type="3"
             @scroll="contentScroll"
             :pull-up-load="true"
             @pullingUp="loadMore">
-      <home-swiper :banners="banners"/>
+      <home-swiper :banners="banners" @imagsLoad="imagsLoad"/>
       <recommend-view :recommends="recommends"/>
       <feature-view/>
-      <tab-control class="tab-control"
+      <tab-control
                    :titles="['流行', '新款', '精选']"
-                   @tabClick="tabClick"/>
+                   @tabClick="tabClick" 
+                   ref="tabOffsetTop2"/>
       <good-list :goods="showGoods"/>
     </scroll>
-    <div>呵呵呵呵</div>
     <back-top @click.native="backClick" v-show="isShowBackTop"/>
   </div>
 </template>
@@ -55,7 +60,9 @@
           'sell': {page: 0, list: []},
         },
         currentType: 'pop',
-        isShowBackTop: false
+        isShowBackTop: false,
+        tabOffsetTop:0,
+        isTabFixed:false,
       }
     },
     computed: {
@@ -72,7 +79,8 @@
       this.getHomeGoods('new')
       this.getHomeGoods('sell')
 
-   
+      //
+      
     },
     mounted(){
          //监听图片加载
@@ -80,7 +88,11 @@
        this.$bus.$on('imageLoad',()=>{
         // console.log('---')
        refresh()
-      })
+      });
+      //tabcontrol的tabOffsetTop
+
+      // this.tabOffsetTop=this.$refs.tabOffsetTop.$el.offsetTop
+      
     },
     methods: {
       /**
@@ -107,15 +119,26 @@
             this.currentType = 'sell'
             break
         }
+        this.$refs.tabOffsetTop1.currentIndex = index;
+        this.$refs.tabOffsetTop2.currentIndex = index;
       },
       backClick() {
         this.$refs.scroll.scrollTo(0, 0)
       },
       contentScroll(position) {
+        //1.判断我们的backtop是否显示
         this.isShowBackTop = (-position.y) > 1000
+        // 决定tabcontrol是否吸顶（position:fixed）
+        // console.log(this.tabOffsetTop)
+        this.isTabFixed = (-position.y) > this.tabOffsetTop
       },
       loadMore() {
         this.getHomeGoods(this.currentType)
+      },
+      imagsLoad(){
+         //
+           this.tabOffsetTop=this.$refs.tabOffsetTop2.$el.offsetTop
+          //  console.log(this.tabOffsetTop)
       },
       /**
        * 网络请求相关的方法
@@ -151,20 +174,20 @@
   .home-nav {
     background-color: var(--color-tint);
     color: #fff;
-
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    z-index: 9;
   }
 
   .tab-control {
+    /*
     position: sticky;
     top: 44px;
-    z-index: 9;
+    z-index: 9;*/
   }
-
+  .tab-control2{
+    position: relative;
+    left:0px;
+    right:0px;
+    z-index: 1;
+  }
   .content {
     overflow: hidden;
 
