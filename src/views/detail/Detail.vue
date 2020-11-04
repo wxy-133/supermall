@@ -2,6 +2,7 @@
   <div id="detail">
     <DetailNavBar/>
     <DetailSwiper :topImages="topImages"/>
+    <DetailBaseInfo :goods="goods"/>
     <div>{{iid}}</div>
   </div>
 </template>
@@ -9,20 +10,23 @@
 <script>
   import DetailNavBar from './childComps/DetailNavBar'
   import DetailSwiper from './childComps/DetailSwiper' 
+  import DetailBaseInfo from './childComps/DetailBaseInfo'
   import {getDetail} from 'network/detail'
+  import {GoodsInfo} from 'network/detail'
   export default {
     name:'Detail',
     props:[''],
     data () {
       return {
        iid:null,
-       topImages:[]
+       topImages:[],
+       goods:null
       };
     },
-
     components: {
       DetailNavBar,
-      DetailSwiper
+      DetailSwiper,
+      DetailBaseInfo
     },
     created(){
         //保存传入的iid
@@ -31,7 +35,11 @@
         getDetail(this.iid).then(res=>{
           // console.log(res)
           //获取顶部轮播数据
+          const data = res.result;
           this.topImages = res.result.itemInfo.topImages
+          //获取商品信息
+          this.goods = new GoodsInfo(data.itemInfo,data.columns,data.shopInfo.services);
+
         })
 
     }
