@@ -1,7 +1,7 @@
 <template>
   <div>
      <nav-bar>
-      <div slot="left" class="back" @clic="backCLick">
+      <div slot="left" class="back" @click="backClick">
        <img src="~assets/img/common/back.svg" alt="">
       </div>
       <div slot="center" class="titles">
@@ -34,9 +34,10 @@
       NavBar
     },
     methods:{
-      backCLick(){
-        this.$router.back();
-        // this.$router.go(-1)
+      backClick(){
+        // this.$router.back();
+        console.log('11')
+        this.$router.go(-1)
       },
       titleClick(index){
         // console.log('11')
