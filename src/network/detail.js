@@ -22,3 +22,14 @@ export class GoodsInfo{
     
   }
 }
+
+export class Shop {
+  constructor(shopInfo) {
+    this.logo = shopInfo.shopLogo; //字符串
+    this.score = shopInfo.score; //数组
+    //this.fans = shopInfo.cFans;
+    this.goods = shopInfo.cGoods;
+    this.sells = shopInfo.cSells;
+    this.name = shopInfo.name;
+  }
+}

@@ -17,17 +17,14 @@
         item
       }}</span>
     </div>
-
-    <div class="services">
-      <div
-        v-for="(item, index) in goods.services"
-        v-if="itemShow(item)"
-        :key="index"
-      >
+<div class="services">
+    <div  v-for="(item, index) in goods.services" :key="index">
+      <div v-if="itemShow(item)" >
         <img :src="item.icon" alt="" />
         <span>{{ item.name }}</span>
       </div>
     </div>
+  </div>
   </div>
 </template>
 <script>
