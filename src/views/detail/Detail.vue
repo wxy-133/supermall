@@ -1,11 +1,13 @@
 <template>
   <div id="detail">
-    <DetailNavBar/>
+    <DetailNavBar class="detail-nav"/>
+    <Scroll class="content">
     <DetailSwiper :topImages="topImages"/>
     <DetailBaseInfo :goods="goods"/>
     <DetailShopInfo :shop="shop"/>
     <DetailGoodsInfo :detailInfo="detailInfo" @loadImgEvent="loadImgOk"/>
     <div>{{iid}}</div>
+    </Scroll>
   </div>
 </template>
 
@@ -15,6 +17,9 @@
   import DetailBaseInfo from './childComps/DetailBaseInfo'
   import DetailShopInfo from './childComps/DetailShopInfo'
   import DetailGoodsInfo from './childComps/DetailGoodsInfo'
+
+  import Scroll from 'components/common/scroll/Scroll'
+
   import {getDetail} from 'network/detail'
   import {GoodsInfo,Shop} from 'network/detail'
   export default {
@@ -26,7 +31,8 @@
        topImages:[],
        goods:{},
        shop:{},
-       detailInfo:{}
+       detailInfo:{},
+       bcFuncTheme: null,
       };
     },
     components: {
@@ -34,8 +40,13 @@
       DetailSwiper,
       DetailBaseInfo,
       DetailShopInfo,
-      DetailGoodsInfo
+      DetailGoodsInfo,
+      Scroll
     },
+      beforeDestroy() {
+    this.$bus.$off("goodsImgLoadEvent", this.bcFunc);
+    console.log("销毁Detail的bus");
+  },
     created(){
         //保存传入的iid
         this.iid = this.$route.params.iid
@@ -56,12 +67,28 @@
     },
     methods: {
       loadImgOk() {
-      this.bcFunc();
-      this.bcFuncTheme();
+      // this.bcFunc();
+      // this.bcFuncTheme();
       },
     },
   }
 </script>
 <style scoped>
-
+.detail-nav{
+  position: relative;
+  left:0px;
+  right:0px;
+  top: 0px;
+  z-index: 10;
+  background-color: white;
+}
+#detail{
+  position:relative;
+  z-index: 9;
+  background: white;
+  height: 100vh;
+}
+.content{
+height: calc(100% - 44px);
+}
 </style>
