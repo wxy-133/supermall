@@ -7,6 +7,7 @@
     <DetailShopInfo :shop="shop"/>
     <DetailGoodsInfo :detailInfo="detailInfo" @loadImgEvent="loadImgOk"/>
     <DetailParamsInfo :paramInfo="paramInfo"/>
+    <DetailCommentInfo :commentInfo="commentInfo"/>
     <div>{{iid}}</div>
     </Scroll>
   </div>
@@ -19,6 +20,7 @@
   import DetailShopInfo from './childComps/DetailShopInfo'
   import DetailGoodsInfo from './childComps/DetailGoodsInfo'
   import DetailParamsInfo from './childComps/DetailParamsInfo'
+  import DetailCommentInfo from './childComps/DetailCommentInfo'
   import Scroll from 'components/common/scroll/Scroll'
 
   import {getDetail} from 'network/detail'
@@ -34,7 +36,8 @@
        shop:{},
        detailInfo:{},
        bcFuncTheme: null,
-       paramInfo:{}
+       paramInfo:{},
+       commentInfo:{}
       };
     },
     components: {
@@ -44,12 +47,13 @@
       DetailShopInfo,
       DetailGoodsInfo,
       Scroll,
-      DetailParamsInfo
+      DetailParamsInfo,
+      DetailCommentInfo
     },
-      beforeDestroy() {
-    this.$bus.$off("goodsImgLoadEvent", this.bcFunc);
-    console.log("销毁Detail的bus");
-  },
+    beforeDestroy() {
+     this.$bus.$off("goodsImgLoadEvent", this.bcFunc);
+     console.log("销毁Detail的bus");
+      },
     created(){
         //保存传入的iid
         this.iid = this.$route.params.iid
@@ -66,12 +70,17 @@
           //获取宝贝的详细信息
           this.detailInfo = data.detailInfo;
           // 获取商品参数信息
-          // this.paramInfo = data.itemParams;
-          // console.log(this.paramInfo)
+          // this.paramInfo = data.itemParams;         
           this.paramInfo = new GoodsParam(
-          data.itemParams.info,
-          data.itemParams.rule
-        );
+           data.itemParams.info,
+           data.itemParams.rule
+          );
+          console.log(this.paramInfo);
+          //取出我们的评论信息
+          if (data.rate.cRate != 0) {
+          this.commentInfo = data.rate.list[0];
+         }
+          console.log(this.commentInfo)
 
         })
 
