@@ -8,6 +8,7 @@
     <DetailGoodsInfo :detailInfo="detailInfo" @loadImgEvent="loadImgOk"/>
     <DetailParamsInfo :paramInfo="paramInfo"/>
     <DetailCommentInfo :commentInfo="commentInfo"/>
+    <good-list :goods="recommends"/>
     <div>{{iid}}</div>
     </Scroll>
   </div>
@@ -22,8 +23,8 @@
   import DetailParamsInfo from './childComps/DetailParamsInfo'
   import DetailCommentInfo from './childComps/DetailCommentInfo'
   import Scroll from 'components/common/scroll/Scroll'
-
-  import {getDetail} from 'network/detail'
+  import GoodList from 'components/content/goods/GoodsList'
+  import {getDetail,getRecommend} from 'network/detail'
   import {GoodsInfo,Shop,GoodsParam} from 'network/detail'
   export default {
     name:'Detail',
@@ -37,7 +38,8 @@
        detailInfo:{},
        bcFuncTheme: null,
        paramInfo:{},
-       commentInfo:{}
+       commentInfo:{},
+       recommends:{}
       };
     },
     components: {
@@ -48,7 +50,8 @@
       DetailGoodsInfo,
       Scroll,
       DetailParamsInfo,
-      DetailCommentInfo
+      DetailCommentInfo,
+      GoodList
     },
     beforeDestroy() {
      this.$bus.$off("goodsImgLoadEvent", this.bcFunc);
@@ -82,6 +85,11 @@
          }
           console.log(this.commentInfo)
 
+        })
+        //请求推荐数据
+        getRecommend().then(res=>{
+          console.log(res)
+          this.recommends = res.data.list
         })
 
     },
