@@ -14,10 +14,7 @@
     },
     props: {
       goods: {
-        type: Array,
-        default() {
-          return {}
-        }
+       
       }
     }
   }

@@ -27,7 +27,14 @@
     },
     methods:{
       imageLoad(){
-        this.$bus.$emit('imageLoad')
+        //  this.$bus.$emit('imageLoad')
+         this.$bus.$emit('itemImageLoad')
+          // if(this.$route.path.indexOf('/home')){
+        //   this.$bus.$emit('homeItemImageLoad')
+        // }else if(this.$route.path.indexOf('/detail')){
+        //   this.$bus.$emit('detailItemImageLoad')
+        // }     
+       
       },
       itemClick(){
         this.$router.push('/detail/'+this.goodsItem.iid)

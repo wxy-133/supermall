@@ -1,14 +1,14 @@
 <template>
   <div id="detail">
     <DetailNavBar class="detail-nav"/>
-    <Scroll class="content">
+    <Scroll class="content" ref="scroll">
     <DetailSwiper :topImages="topImages"/>
     <DetailBaseInfo :goods="goods"/>
     <DetailShopInfo :shop="shop"/>
     <DetailGoodsInfo :detailInfo="detailInfo" @loadImgEvent="loadImgOk"/>
     <DetailParamsInfo :paramInfo="paramInfo"/>
     <DetailCommentInfo :commentInfo="commentInfo"/>
-    <good-list :goods="recommends"/>
+    <DetailRecommend :goods="recommends"/>
     <div>{{iid}}</div>
     </Scroll>
   </div>
@@ -23,9 +23,11 @@
   import DetailParamsInfo from './childComps/DetailParamsInfo'
   import DetailCommentInfo from './childComps/DetailCommentInfo'
   import Scroll from 'components/common/scroll/Scroll'
-  import GoodList from 'components/content/goods/GoodsList'
+  import DetailRecommend from 'components/content/goods/DetailRecommend'
   import {getDetail,getRecommend} from 'network/detail'
   import {GoodsInfo,Shop,GoodsParam} from 'network/detail'
+   import {debounce} from 'common/util'
+    import {itemListenerMixin} from 'common/mixin'
   export default {
     name:'Detail',
     props:[''],
@@ -39,9 +41,11 @@
        bcFuncTheme: null,
        paramInfo:{},
        commentInfo:{},
-       recommends:{}
+       recommends:{},
+       itemImgLenser:null
       };
     },
+     mixins:[itemListenerMixin],
     components: {
       DetailNavBar,
       DetailSwiper,
@@ -51,7 +55,7 @@
       Scroll,
       DetailParamsInfo,
       DetailCommentInfo,
-      GoodList
+      DetailRecommend
     },
     beforeDestroy() {
      this.$bus.$off("goodsImgLoadEvent", this.bcFunc);
@@ -99,6 +103,16 @@
       // this.bcFuncTheme();
       },
     },
+    mounted(){
+      let newRefresh = debounce(this.$refs.scroll.refresh,100)
+      this.itemImgLenser = ()=>{
+            newRefresh()
+      }
+      this.$bus.$on('itemImageLoad',this.itemImgLenser)
+    },
+    deactivated(){
+      this.$bus.$off('itemImageLoad',this.itemImgLenser)
+    }
   }
 </script>
 <style scoped>

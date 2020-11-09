@@ -38,6 +38,7 @@
 
   import { getHomeMultidata, getHomeGoods } from "network/home"
   import {debounce} from 'common/util'
+  import {itemListenerMixin} from 'common/mixin'
   export default {
     name: "Home",
     components: {
@@ -66,6 +67,7 @@
         saveY:0,
       }
     },
+    mixins:[itemListenerMixin],
     computed: {
       showGoods() {
         return this.goods[this.currentType].list
@@ -74,9 +76,6 @@
     activated(){
       this.$refs.scroll.scrollTo(0,this.saveY,0)
       this.$refs.scroll.refresh()
-    },
-    deactivated(){
-      this.saveY = this.$refs.scroll.getScrollY()
     },
     created() {
       // 1.请求多个数据
@@ -92,13 +91,9 @@
     },
     mounted(){
          //监听图片加载
-      const refresh = debounce(this.$refs.scroll.refresh,500)
-       this.$bus.$on('imageLoad',()=>{
-        // console.log('---')
-       refresh()
-      });
+      
       //tabcontrol的tabOffsetTop
-
+        
       // this.tabOffsetTop=this.$refs.tabOffsetTop.$el.offsetTop
       
     },
@@ -168,7 +163,11 @@
           this.$refs.scroll.finishPullUp()
         })
       }
-    }
+    },
+    deactivated(){
+      this.saveY = this.$refs.scroll.getScrollY();
+      this.$bus.$off('itemImageLoad',this.itemImgLenser)
+    },
   }
 </script>
 
