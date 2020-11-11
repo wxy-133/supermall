@@ -41,7 +41,8 @@
       },
       titleClick(index){
         // console.log('11')
-        this.currentIndex = index
+        this.currentIndex = index;
+        this.$emit('titleClick',index)
       }
     }
 
