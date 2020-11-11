@@ -1,6 +1,6 @@
 <template>
   <div id="detail">
-    <DetailNavBar class="detail-nav" @titleClick="titleClick" ref="nav"/>
+    <DetailNavBar class="detail-nav" @titleClick="titleClick" ref="nav" />
     <Scroll class="content" ref="scroll" :probe-type="3" @scroll="contScroll">
       <DetailSwiper :topImages="topImages" />
       <DetailBaseInfo :goods="goods" />
@@ -45,7 +45,7 @@ export default {
       itemImgLenser: null,
       themeTopYs: [],
       getThemeTopY: null,
-      currentIndex:0
+      currentIndex: 0
     };
   },
   mixins: [itemListenerMixin],
@@ -69,7 +69,7 @@ export default {
     this.iid = this.$route.params.iid;
     //根据iid请求详情数据
     getDetail(this.iid).then(res => {
-      console.log(res);
+      // console.log(res);
       //获取顶部轮播数据
       const data = res.result;
       this.topImages = res.result.itemInfo.topImages;
@@ -98,7 +98,7 @@ export default {
     });
     //请求推荐数据
     getRecommend().then(res => {
-      console.log(res);
+      // console.log(res);
       this.recommends = res.data.list;
     });
     //
@@ -108,7 +108,9 @@ export default {
         this.themeTopYs.push(this.$refs.params.$el.offsetTop),
         this.themeTopYs.push(this.$refs.comment.$el.offsetTop),
         this.themeTopYs.push(this.$refs.remmend.$el.offsetTop),
-        console.log(this.themeTopYs);
+        //
+        this.themeTopYs.push(Number.MAX_VALUE);
+      // console.log(this.themeTopYs);
     }, 200);
   },
   // updated() {
@@ -124,7 +126,7 @@ export default {
       this.getThemeTopY();
     },
     titleClick(index) {
-      console.log(index);
+      // console.log(index);
       this.$refs.scroll.scrollTo(0, -this.themeTopYs[index], 100);
     },
     contScroll(position) {
@@ -136,15 +138,28 @@ export default {
       // i*1 parseInt
       // console.log(i)
       //  }
-      for (let i = 0; i < this.themeTopYs.length; i++) {
+      //方法1
+      // for (let i = 0; i < this.themeTopYs.length; i++) {
+      //   let length = this.themeTopYs.length;
+      //   if (this.currentIndex!==i&&(i < length - 1 &&
+      //       positionY >= this.themeTopYs[i] &&
+      //       positionY < this.themeTopYs[i + 1]) ||
+      //     (i === length - 1 && positionY >= this.themeTopYs[i])) {
+      //     this.currentIndex=i;
+      //     this.$refs.nav.currentIndex = this.currentIndex
+      //     // console.log(i);
+      //   }
+      // }
+      // 方法2 hack
+
+      for (let i = 0; i < this.themeTopYs.length-1; i++) {
         let length = this.themeTopYs.length;
-        if (this.currentIndex!==i&&(i < length - 1 &&
-            positionY >= this.themeTopYs[i] &&
-            positionY < this.themeTopYs[i + 1]) ||
-          (i === length - 1 && positionY >= this.themeTopYs[i])) {
+        if (
+          this.currentIndex !== i &&
+          positionY >= this.themeTopYs[i] && positionY < this.themeTopYs[i + 1]
+        ) {
           this.currentIndex=i;
-          this.$refs.nav.currentIndex = this.currentIndex
-          console.log(i);
+          this.$refs.nav.currentIndex = this.currentIndex;
         }
       }
     }
