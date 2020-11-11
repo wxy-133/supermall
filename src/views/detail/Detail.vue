@@ -1,7 +1,7 @@
 <template>
   <div id="detail">
-    <DetailNavBar class="detail-nav" @titleClick="titleClick" />
-    <Scroll class="content" ref="scroll">
+    <DetailNavBar class="detail-nav" @titleClick="titleClick" ref="nav"/>
+    <Scroll class="content" ref="scroll" :probe-type="3" @scroll="contScroll">
       <DetailSwiper :topImages="topImages" />
       <DetailBaseInfo :goods="goods" />
       <DetailShopInfo :shop="shop" />
@@ -44,7 +44,8 @@ export default {
       recommends: {},
       itemImgLenser: null,
       themeTopYs: [],
-      getThemeTopY:null
+      getThemeTopY: null,
+      currentIndex:0
     };
   },
   mixins: [itemListenerMixin],
@@ -93,8 +94,7 @@ export default {
       if (data.rate.cRate != 0) {
         this.commentInfo = data.rate.list[0];
       }
-     //
-    
+      //
     });
     //请求推荐数据
     getRecommend().then(res => {
@@ -102,14 +102,14 @@ export default {
       this.recommends = res.data.list;
     });
     //
-    this.getThemeTopY = debounce(()=>{
-          this.themeTopYs = [];
-          this.themeTopYs.push(0),
-          this.themeTopYs.push(this.$refs.params.$el.offsetTop),
-          this.themeTopYs.push(this.$refs.comment.$el.offsetTop),
-          this.themeTopYs.push(this.$refs.remmend.$el.offsetTop),
-           console.log(this.themeTopYs)
-    },200)
+    this.getThemeTopY = debounce(() => {
+      this.themeTopYs = [];
+      this.themeTopYs.push(0),
+        this.themeTopYs.push(this.$refs.params.$el.offsetTop),
+        this.themeTopYs.push(this.$refs.comment.$el.offsetTop),
+        this.themeTopYs.push(this.$refs.remmend.$el.offsetTop),
+        console.log(this.themeTopYs);
+    }, 200);
   },
   // updated() {
   //    this.themeTopYs.push(0),
@@ -120,12 +120,33 @@ export default {
   // },
   methods: {
     loadImgOk() {
-          this.$refs.scroll.refresh();
-          this.getThemeTopY()
+      this.$refs.scroll.refresh();
+      this.getThemeTopY();
     },
     titleClick(index) {
       console.log(index);
       this.$refs.scroll.scrollTo(0, -this.themeTopYs[index], 100);
+    },
+    contScroll(position) {
+      // console.log(position);
+      //获取y值
+      const positionY = -position.y;
+      // 和主题中的值进行对比，
+      // for(let i=0;i<this.themeTopYs.length;i++){
+      // i*1 parseInt
+      // console.log(i)
+      //  }
+      for (let i = 0; i < this.themeTopYs.length; i++) {
+        let length = this.themeTopYs.length;
+        if (this.currentIndex!==i&&(i < length - 1 &&
+            positionY >= this.themeTopYs[i] &&
+            positionY < this.themeTopYs[i + 1]) ||
+          (i === length - 1 && positionY >= this.themeTopYs[i])) {
+          this.currentIndex=i;
+          this.$refs.nav.currentIndex = this.currentIndex
+          console.log(i);
+        }
+      }
     }
   },
   mounted() {
