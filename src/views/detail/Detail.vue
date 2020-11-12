@@ -10,6 +10,7 @@
       <DetailCommentInfo :commentInfo="commentInfo" ref="comment" />
       <DetailRecommend :goods="recommends" ref="remmend" />
     </Scroll>
+    <DetailBottomBar/>
   </div>
 </template>
 
@@ -21,8 +22,10 @@ import DetailShopInfo from "./childComps/DetailShopInfo";
 import DetailGoodsInfo from "./childComps/DetailGoodsInfo";
 import DetailParamsInfo from "./childComps/DetailParamsInfo";
 import DetailCommentInfo from "./childComps/DetailCommentInfo";
+import DetailBottomBar from './childComps/DetailBottomBar'
 import Scroll from "components/common/scroll/Scroll";
 import DetailRecommend from "components/content/goods/DetailRecommend";
+
 import { getDetail, getRecommend } from "network/detail";
 import { GoodsInfo, Shop, GoodsParam } from "network/detail";
 import { debounce } from "common/util";
@@ -58,7 +61,8 @@ export default {
     Scroll,
     DetailParamsInfo,
     DetailCommentInfo,
-    DetailRecommend
+    DetailRecommend,
+    DetailBottomBar
   },
   beforeDestroy() {
     this.$bus.$off("goodsImgLoadEvent", this.bcFunc);
@@ -192,6 +196,6 @@ export default {
   height: 100vh;
 }
 .content {
-  height: calc(100% - 44px);
+  height: calc(100% - 44px - 49px);
 }
 </style>
