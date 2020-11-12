@@ -10,7 +10,8 @@
       <DetailCommentInfo :commentInfo="commentInfo" ref="comment" />
       <DetailRecommend :goods="recommends" ref="remmend" />
     </Scroll>
-    <DetailBottomBar/>
+    <DetailBottomBar />
+    <back-top @click.native="backClick" v-show="isShowBackTop" class="backTop"/>
   </div>
 </template>
 
@@ -22,18 +23,19 @@ import DetailShopInfo from "./childComps/DetailShopInfo";
 import DetailGoodsInfo from "./childComps/DetailGoodsInfo";
 import DetailParamsInfo from "./childComps/DetailParamsInfo";
 import DetailCommentInfo from "./childComps/DetailCommentInfo";
-import DetailBottomBar from './childComps/DetailBottomBar'
+import DetailBottomBar from "./childComps/DetailBottomBar";
 import Scroll from "components/common/scroll/Scroll";
 import DetailRecommend from "components/content/goods/DetailRecommend";
+
 
 import { getDetail, getRecommend } from "network/detail";
 import { GoodsInfo, Shop, GoodsParam } from "network/detail";
 import { debounce } from "common/util";
-import { itemListenerMixin } from "common/mixin";
+import { itemListenerMixin,backTopMixin } from "common/mixin";
 export default {
   name: "Detail",
   props: [""],
-  mixins: [itemListenerMixin],
+  mixins: [itemListenerMixin,backTopMixin],
   data() {
     return {
       iid: null,
@@ -48,10 +50,11 @@ export default {
       itemImgLenser: null,
       themeTopYs: [],
       getThemeTopY: null,
-      currentIndex: 0
+      currentIndex: 0,
+    
     };
   },
-  mixins: [itemListenerMixin],
+  // mixins: [itemListenerMixin],
   components: {
     DetailNavBar,
     DetailSwiper,
@@ -62,7 +65,7 @@ export default {
     DetailParamsInfo,
     DetailCommentInfo,
     DetailRecommend,
-    DetailBottomBar
+    DetailBottomBar,
   },
   beforeDestroy() {
     this.$bus.$off("goodsImgLoadEvent", this.bcFunc);
@@ -156,17 +159,21 @@ export default {
       // }
       // 方法2 hack
 
-      for (let i = 0; i < this.themeTopYs.length-1; i++) {
+      for (let i = 0; i < this.themeTopYs.length - 1; i++) {
         let length = this.themeTopYs.length;
         if (
           this.currentIndex !== i &&
-          positionY >= this.themeTopYs[i] && positionY < this.themeTopYs[i + 1]
+          positionY >= this.themeTopYs[i] &&
+          positionY < this.themeTopYs[i + 1]
         ) {
-          this.currentIndex=i;
+          this.currentIndex = i;
           this.$refs.nav.currentIndex = this.currentIndex;
         }
       }
+      //是否显示回到顶部
+      this.isShowBackTop = -position.y > 1000;
     }
+    
   },
   mounted() {
     // let newRefresh = debounce(this.$refs.scroll.refresh,100)
@@ -197,5 +204,10 @@ export default {
 }
 .content {
   height: calc(100% - 44px - 49px);
+}
+.backTop{
+    position: absolute;
+    bottom: 60px;
+    right: 0px;
 }
 </style>
