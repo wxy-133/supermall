@@ -10,8 +10,8 @@
       <DetailCommentInfo :commentInfo="commentInfo" ref="comment" />
       <DetailRecommend :goods="recommends" ref="remmend" />
     </Scroll>
-    <DetailBottomBar />
-    <back-top @click.native="backClick" v-show="isShowBackTop" class="backTop"/>
+    <DetailBottomBar @addToCart="addCart" />
+    <back-top @click.native="backClick" v-show="isShowBackTop" class="backTop" />
   </div>
 </template>
 
@@ -27,15 +27,14 @@ import DetailBottomBar from "./childComps/DetailBottomBar";
 import Scroll from "components/common/scroll/Scroll";
 import DetailRecommend from "components/content/goods/DetailRecommend";
 
-
 import { getDetail, getRecommend } from "network/detail";
 import { GoodsInfo, Shop, GoodsParam } from "network/detail";
 import { debounce } from "common/util";
-import { itemListenerMixin,backTopMixin } from "common/mixin";
+import { itemListenerMixin, backTopMixin } from "common/mixin";
 export default {
   name: "Detail",
   props: [""],
-  mixins: [itemListenerMixin,backTopMixin],
+  mixins: [itemListenerMixin, backTopMixin],
   data() {
     return {
       iid: null,
@@ -50,8 +49,7 @@ export default {
       itemImgLenser: null,
       themeTopYs: [],
       getThemeTopY: null,
-      currentIndex: 0,
-    
+      currentIndex: 0
     };
   },
   // mixins: [itemListenerMixin],
@@ -65,7 +63,7 @@ export default {
     DetailParamsInfo,
     DetailCommentInfo,
     DetailRecommend,
-    DetailBottomBar,
+    DetailBottomBar
   },
   beforeDestroy() {
     this.$bus.$off("goodsImgLoadEvent", this.bcFunc);
@@ -172,8 +170,18 @@ export default {
       }
       //是否显示回到顶部
       this.isShowBackTop = -position.y > 1000;
+    },
+    addCart() {
+      //获取购物车需要展示的信息 图片 标题 描述 价格
+      const product ={};
+      product.image= this.topImages[0];
+      product.title =this.goods.title;
+      product.des=this.goods.des;
+      product.price=this.goods.newPrice;
+      product.iid=this.iid;
+      //将商品添加到购物车
+      
     }
-    
   },
   mounted() {
     // let newRefresh = debounce(this.$refs.scroll.refresh,100)
@@ -205,9 +213,9 @@ export default {
 .content {
   height: calc(100% - 44px - 49px);
 }
-.backTop{
-    position: absolute;
-    bottom: 60px;
-    right: 0px;
+.backTop {
+  position: absolute;
+  bottom: 60px;
+  right: 0px;
 }
 </style>

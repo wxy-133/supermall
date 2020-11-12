@@ -29,14 +29,10 @@
 
   export default {
     name:'DetailBottomBar',
-    data () {
-      return {
-
-      };
-    },
     methods: {
       addToCart(){
-        this.$emit('addCart')
+        this.$emit('addToCart')
+        // console.log('add')
       }
     },
   }
