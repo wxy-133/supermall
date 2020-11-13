@@ -176,11 +176,11 @@ export default {
       const product ={};
       product.image= this.topImages[0];
       product.title =this.goods.title;
-      product.des=this.goods.des;
+      product.des=this.goods.desc;
       product.price=this.goods.newPrice;
       product.iid=this.iid;
       //将商品添加到购物车
-      
+      this.$store.commit('addCart',product)
     }
   },
   mounted() {
