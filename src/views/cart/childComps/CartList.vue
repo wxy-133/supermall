@@ -1,6 +1,6 @@
 <template>
   <div class="cart-list">
-  <Scroll class="content">
+  <Scroll class="content" ref="scroll">
      <CartListItem v-for="(item,index) in cartList" :product="item" :key="index"/>
   </Scroll>
   </div>
@@ -22,7 +22,7 @@ export default {
     ...mapGetters(["cartList"])
   },
   activated(){
-    
+   this.$refs.scroll.refresh();
   }
 };
 </script>
