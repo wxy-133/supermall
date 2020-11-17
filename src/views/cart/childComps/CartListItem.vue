@@ -38,11 +38,12 @@ export default {
   },
   methods: {
     checkClick() {
-      this.item.checked = !this.item.checked;
+      //点击取反
+      this.product.checked = !this.product.checked;
     },
     //信息点击事件
-    infoClick(item) {
-      this.$router.push("/detail/" + item.iid);
+    infoClick(product) {
+      this.$router.push("/detail/" + product.iid);
     }
   }
 };
