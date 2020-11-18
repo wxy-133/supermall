@@ -1,10 +1,12 @@
 <template>
   <div class="bottom-bar">
     <div class="check-all">
-      <CheckButton class="check-btn" :isChecked="isSelectAll"/><span>全选</span>
+      <CheckButton class="check-btn" :isChecked="isSelectAll" @click.native="checkAll"/><span
+        >全选</span
+      >
     </div>
-    <div class="totalPrice">合计：{{totalPrice}}</div>
-     <div class="buy">去购买({{ totalLength }})</div>
+    <div class="totalPrice">合计：{{ totalPrice }}</div>
+    <div class="buy">去购买({{ totalLength }})</div>
   </div>
 </template>
 
@@ -14,40 +16,59 @@ import { mapGetters } from "vuex";
 export default {
   name: "",
   data() {
-    return {
-     
-    };
+    return {};
   },
-  
   components: {
     CheckButton,
   },
-  methods:{
-
+  methods: {
+    checkAll(){
+      if(this.isSelectAll){
+        this.cartList.forEach(item=>item.checked=false)
+      }else{
+        this.cartList.forEach(item=>item.checked=true)
+      }
+        // this.cartList.forEach(item=>item.checked=!this.isSelectAll)
+    }
   },
-  computed:{
+  computed: {
     ...mapGetters(["cartList"]),
-    totalPrice(){
-      return '$' + this.cartList.filter(item=>{
-        return item.checked
-      }).reduce((preValue,item)=>{
-        return preValue + item.price*item.count;
-       
-      },0).toFixed(2)
+    // totalPrice(){
+    //   return '$' + this.cartList.filter(item=>{
+    //     return item.checked
+    //   }).reduce((preValue,item)=>{
+    //     return preValue + item.price*item.count;
+
+    //   },0).toFixed(2)
+    // },
+    cartList() {
+      return this.$store.state.cartList;
     },
-    totalLength(){
-      return this.cartList.filter(item=>item.checked).length
+    checkedItem() {
+      return this.cartList.filter((item, index) => item.checked == true);
     },
-    isSelectAll(){
+    totalLength() {
+      return this.checkedItem.length;
+    },
+    totalPrice() {
+      return this.checkedItem.reduce(
+        (pre, item) => pre + item.count * item.price,
+        0
+      );
+    },
+    totalLength() {
+      return this.cartList.filter((item) => item.checked).length;
+    },
+    isSelectAll() {
       // return !(this.cartList.filter(item=>item.checked).length)
       // return !this.cartList.find(item=>item.checked)
       if (this.cartList.length == 0) {
         return false;
       } else {
-        return this.cartList.every(item => item.checked == true);
+        return this.cartList.every((item) => item.checked == true);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
@@ -69,16 +90,16 @@ export default {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  top:10px;
+  top: 10px;
   line-height: 20px;
 }
-.totalPrice{
-margin-left:10px
-}.buy {
+.totalPrice {
+  margin-left: 10px;
+}
+.buy {
   width: 5rem;
   background-color: #f03;
   color: white;
   margin-left: 2rem;
 }
-
 </style>
