@@ -2,17 +2,17 @@
   <div class="cart_list_item">
     <check-button
       @click.native="checkClick"
-      :isChecked="product.checked"
+      :isChecked="item.checked"
       ref="checkButtonRef"
     />
     <div class="item_img" @click="checkClick">
-      <img :src="product.image" alt="img" />
+      <img :src="item.image" alt="img" />
     </div>
-    <div class="item_info" @click="infoClick(product)">
-      <p class="item_title">{{ product.title }}</p>
-      <p class="item_desc">{{ product.desc }}</p>
-      <span class="item_price">￥{{ product.price }}</span>
-      <span class="item_count">x{{ product.count }}</span>
+    <div class="item_info" @click="infoClick(item)">
+      <p class="item_title">{{ item.title }}</p>
+      <p class="item_desc">{{ item.desc }}</p>
+      <span class="item_price">￥{{ item.price }}</span>
+      <span class="item_count">x{{ item.count }}</span>
     </div>
   </div>
 </template>
@@ -22,7 +22,7 @@ import CheckButton from 'components/content/checkButton/CheckButton'
 export default {
   name: "CartListItem",
   props: {
-    product: {
+    item: {
       type: Object,
       default() {
         return [];
@@ -39,11 +39,11 @@ export default {
   methods: {
     checkClick() {
       //点击取反
-      this.product.checked = !this.product.checked;
+      this.item.checked = !this.item.checked;
     },
     //信息点击事件
-    infoClick(product) {
-      this.$router.push("/detail/" + product.iid);
+    infoClick(item) {
+      this.$router.push("/detail/" + item.iid);
     }
   }
 };
