@@ -31,6 +31,7 @@ import { getDetail, getRecommend } from "network/detail";
 import { GoodsInfo, Shop, GoodsParam } from "network/detail";
 import { debounce } from "common/util";
 import { itemListenerMixin, backTopMixin } from "common/mixin";
+// import {mapActions} from 'vuex'
 export default {
   name: "Detail",
   props: [""],
@@ -126,6 +127,7 @@ export default {
   //     console.log(this.themeTopYs);
   // },
   methods: {
+    // ...mapActions(['addCart']),
     loadImgOk() {
       this.$refs.scroll.refresh();
       this.getThemeTopY();
@@ -180,7 +182,14 @@ export default {
       product.price=this.goods.newPrice;
       product.iid=this.iid;
       //将商品添加到购物车
-      this.$store.dispatch('addCart',product)
+      // this.addCart(product).then(res=>{
+      //   console.log(res);
+      // })
+      this.$store.dispatch('addCart',product).then(res=>{
+        console.log(res);
+
+      });
+
     }
   },
   mounted() {
