@@ -33,29 +33,30 @@ export default {
   },
   computed: {
     ...mapGetters(["cartList"]),
-    // totalPrice(){
-    //   return '$' + this.cartList.filter(item=>{
-    //     return item.checked
-    //   }).reduce((preValue,item)=>{
-    //     return preValue + item.price*item.count;
+    totalPrice(){
+      return '$' + this.$store.state.cartList.filter(item=>{
+        return item.checked
+      }).reduce((preValue,item)=>{
+        console.log(  item.price.slice(2)*item.count)
+        return preValue + item.price.slice(2)*item.count;
 
-    //   },0).toFixed(2)
+      },0).toFixed(2)
+    },
+    // cartList() {
+    //   return this.$store.state.cartList;
     // },
-    cartList() {
-      return this.$store.state.cartList;
-    },
-    checkedItem() {
-      return this.cartList.filter((item, index) => item.checked == true);
-    },
-    totalLength() {
-      return this.checkedItem.length;
-    },
-    totalPrice() {
-      return this.checkedItem.reduce(
-        (pre, item) => pre + item.count * item.price,
-        0
-      );
-    },
+    // checkedItem() {
+    //   return this.cartList.filter((item, index) => item.checked == true);
+    // },
+    // totalLength() {
+    //   return this.checkedItem.length;
+    // },
+    // totalPrice() {
+    //   return this.checkedItem.reduce(
+    //     (pre, item) => pre + item.count * item.price,
+    //     0
+    //   );
+    // },
     totalLength() {
       return this.cartList.filter((item) => item.checked).length;
     },
