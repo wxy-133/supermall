@@ -6,7 +6,7 @@
       >
     </div>
     <div class="totalPrice">合计：{{ totalPrice }}</div>
-    <div class="buy">去购买({{ totalLength }})</div>
+    <div class="buy" @click="calcClick">去购买({{ totalLength }})</div>
   </div>
 </template>
 
@@ -69,6 +69,11 @@ export default {
         return this.cartList.every((item) => item.checked == true);
       }
     },
+    calcClick(){
+      if(!this.isSelectAll){
+        
+      }
+    }
   },
 };
 </script>

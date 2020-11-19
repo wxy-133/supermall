@@ -12,6 +12,7 @@
     </Scroll>
     <DetailBottomBar @addToCart="addCart" />
     <back-top @click.native="backClick" v-show="isShowBackTop" class="backTop" />
+    <Toast :message="message" :isShow="Show"/>
   </div>
 </template>
 
@@ -32,6 +33,8 @@ import { GoodsInfo, Shop, GoodsParam } from "network/detail";
 import { debounce } from "common/util";
 import { itemListenerMixin, backTopMixin } from "common/mixin";
 // import {mapActions} from 'vuex'
+
+import Toast from 'components/common/toast/Toast'
 export default {
   name: "Detail",
   props: [""],
@@ -50,7 +53,9 @@ export default {
       itemImgLenser: null,
       themeTopYs: [],
       getThemeTopY: null,
-      currentIndex: 0
+      currentIndex: 0,
+      message:'',
+      Show:false
     };
   },
   // mixins: [itemListenerMixin],
@@ -64,7 +69,8 @@ export default {
     DetailParamsInfo,
     DetailCommentInfo,
     DetailRecommend,
-    DetailBottomBar
+    DetailBottomBar,
+    Toast
   },
   beforeDestroy() {
     this.$bus.$off("goodsImgLoadEvent", this.bcFunc);
@@ -186,8 +192,13 @@ export default {
       //   console.log(res);
       // })
       this.$store.dispatch('addCart',product).then(res=>{
-        console.log(res);
-
+        console.log(res) ;
+        this.Show= true;
+        this.message=res;
+        setTimeout(()=>{
+          this.Show=false;
+          this.message=''
+        },1500)
       });
 
     }
