@@ -29,6 +29,11 @@ export default {
         this.cartList.forEach(item=>item.checked=true)
       }
         // this.cartList.forEach(item=>item.checked=!this.isSelectAll)
+    },
+     calcClick(){
+      if(!this.isSelectAll){
+         this.$toast.show('请选择要购买的商品',2000)
+      }
     }
   },
   computed: {
@@ -69,11 +74,7 @@ export default {
         return this.cartList.every((item) => item.checked == true);
       }
     },
-    calcClick(){
-      if(!this.isSelectAll){
-        
-      }
-    }
+   
   },
 };
 </script>
