@@ -1,4 +1,12 @@
 <template>
+  <div class="category">
+   <NavBar>
+   <div slot="center" >分类</div>
+  </NavBar>
+   <div class="main">
+     <category-left ref="left"></category-left>
+      <category-right ref="right" :list_item="rightList"></category-right>
+   </div>
   <div class="wrapper" ref="aaaa">
     <div>
       <!--1.无论是否设置click:false, button都可以点击-->
@@ -111,18 +119,29 @@
       </ul>
     </div>
   </div>
+  </div>
 </template>
 
 <script>
+  import NavBar from 'components/common/navbar/NavBar'
+  import CategoryLeft from "./childComps/CategoryLeft.vue";
+  import CategoryRight from "./childComps/CategoryRight.vue";
   import BScroll from 'better-scroll'
+  import { getCategoryInfo } from "network/category.js";
 
   export default {
     name: "Category",
     data() {
       return {
-        scroll: null
+        scroll: null,
+        rightList: null
       }
     },
+    components:{
+      NavBar,
+      CategoryLeft,
+      CategoryRight
+      },
     // 组件创建完后调用
     mounted() {
       this.scroll = new BScroll(this.$refs.aaaa, {
@@ -144,12 +163,28 @@
       },
       divClick() {
         console.log('divClick');
+      },
+      async getCategoryInfo(maitKey) {
+      let res = await getCategoryInfo(maitKey);
+      if (res) {
+        console.log(res)
+        this.rightList = res.list;
       }
+    }
     }
   }
 </script>
 
 <style scoped>
+ .category{
+     background-color: var(--color-tint);
+  color: white;
+ }
+ .main {
+  display: flex;
+  font-size: 0.6rem;
+  height: calc(100vh - 2.09rem - 1.9rem);
+}
   .wrapper {
     height: 150px;
     background-color: red;

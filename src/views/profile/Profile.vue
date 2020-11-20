@@ -1,127 +1,99 @@
 <template>
-  <div>
-    <scroll class="content">
-      <ul>
-        <li>个人信息1</li>
-        <li>个人信息2</li>
-        <li>个人信息3</li>
-        <li>个人信息4</li>
-        <li>个人信息5</li>
-        <li>个人信息6</li>
-        <li>个人信息7</li>
-        <li>个人信息8</li>
-        <li>个人信息9</li>
-        <li>个人信息10</li>
-        <li>个人信息11</li>
-        <li>个人信息12</li>
-        <li>个人信息13</li>
-        <li>个人信息14</li>
-        <li>个人信息15</li>
-        <li>个人信息16</li>
-        <li>个人信息17</li>
-        <li>个人信息18</li>
-        <li>个人信息19</li>
-        <li>个人信息20</li>
-        <li>个人信息21</li>
-        <li>个人信息22</li>
-        <li>个人信息23</li>
-        <li>个人信息24</li>
-        <li>个人信息25</li>
-        <li>个人信息26</li>
-        <li>个人信息27</li>
-        <li>个人信息28</li>
-        <li>个人信息29</li>
-        <li>个人信息30</li>
-        <li>个人信息31</li>
-        <li>个人信息32</li>
-        <li>个人信息33</li>
-        <li>个人信息34</li>
-        <li>个人信息35</li>
-        <li>个人信息36</li>
-        <li>个人信息37</li>
-        <li>个人信息38</li>
-        <li>个人信息39</li>
-        <li>个人信息40</li>
-        <li>个人信息41</li>
-        <li>个人信息42</li>
-        <li>个人信息43</li>
-        <li>个人信息44</li>
-        <li>个人信息45</li>
-        <li>个人信息46</li>
-        <li>个人信息47</li>
-        <li>个人信息48</li>
-        <li>个人信息49</li>
-        <li>个人信息50</li>
-        <li>个人信息51</li>
-        <li>个人信息52</li>
-        <li>个人信息53</li>
-        <li>个人信息54</li>
-        <li>个人信息55</li>
-        <li>个人信息56</li>
-        <li>个人信息57</li>
-        <li>个人信息58</li>
-        <li>个人信息59</li>
-        <li>个人信息60</li>
-        <li>个人信息61</li>
-        <li>个人信息62</li>
-        <li>个人信息63</li>
-        <li>个人信息64</li>
-        <li>个人信息65</li>
-        <li>个人信息66</li>
-        <li>个人信息67</li>
-        <li>个人信息68</li>
-        <li>个人信息69</li>
-        <li>个人信息70</li>
-        <li>个人信息71</li>
-        <li>个人信息72</li>
-        <li>个人信息73</li>
-        <li>个人信息74</li>
-        <li>个人信息75</li>
-        <li>个人信息76</li>
-        <li>个人信息77</li>
-        <li>个人信息78</li>
-        <li>个人信息79</li>
-        <li>个人信息80</li>
-        <li>个人信息81</li>
-        <li>个人信息82</li>
-        <li>个人信息83</li>
-        <li>个人信息84</li>
-        <li>个人信息85</li>
-        <li>个人信息86</li>
-        <li>个人信息87</li>
-        <li>个人信息88</li>
-        <li>个人信息89</li>
-        <li>个人信息90</li>
-        <li>个人信息91</li>
-        <li>个人信息92</li>
-        <li>个人信息93</li>
-        <li>个人信息94</li>
-        <li>个人信息95</li>
-        <li>个人信息96</li>
-        <li>个人信息97</li>
-        <li>个人信息98</li>
-        <li>个人信息99</li>
-        <li>个人信息100</li>
-      </ul>
-    </scroll>
+  <div id="profile" v-if="uBaseInfo != null">
+    <user-bar :uBaseInfo="uBaseInfo"></user-bar>
+    <order-bar :uid="uBaseInfo.uid"></order-bar>
+    <option-bar :uid="uBaseInfo.uid"></option-bar>
+    <div class="login_out" @click="quitClick">退出账号</div>
+  </div>
+  <div v-else>
+    <h2>没有该用户数据</h2>
   </div>
 </template>
-
 <script>
-  import Scroll from 'components/common/scroll/Scroll'
+import UserBar from "./childComps/UserBar.vue";
+import OrderBar from "./childComps/OrderBar.vue";
+import OptionBar from "./childComps/OptionBar.vue";
 
-  export default {
-    name: "Profile",
-    components: {
-      Scroll
+import { removeToken, getToken, getUid } from "common/const.js";
+import { postQuitLogin } from "network/login.js";
+import { getProfileInfo } from "network/profile.js";
+
+export default {
+  data() {
+    return {
+      uBaseInfo: {
+        //通过uid到达用户的个人界面
+        uid: "",
+        uname: "",
+        uavatar: ""
+      }
+    };
+  },
+  components: {
+    UserBar,
+    OrderBar,
+    OptionBar
+  },
+  created() {
+    this.uBaseInfo.uid = this.$route.params.uid;
+    //将该uid传给后台，去寻找uid的各种数据
+    this.getProfileInfo(this.uBaseInfo.uid);
+
+    //如果 token里的uid 和 路径中的uid一致，则表示是自己的账号
+    console.log(this.uBaseInfo.uid);
+    console.log(this.uBaseInfo.uavatar);
+    console.log(this.uBaseInfo.uname);
+  },
+  methods: {
+    quitClick() {
+      //1. 让服务器记录当前的token的第三条字段signature
+      this.quitLogin();
+      //2. 清除当前的storage
+      removeToken();
+      //3. 路由跳转到登录界面
+      this.$router.replace("/login");
+    },
+    async quitLogin() {
+      let allToken = getToken();
+      let res = await postQuitLogin(getUid(), allToken);
+      if (res) {
+        //成功记录了uinfor里的 token
+        console.log("成功记录");
+      } else {
+        console.log("记录失败");
+      }
+    },
+    async getProfileInfo(uid) {
+      let res = await getProfileInfo(uid);
+      if (!res.success) {
+        this.uBaseInfo = null;
+      } else {
+        this.uBaseInfo.uavatar = res.data.uImg;
+        this.uBaseInfo.uname = res.data.name;
+      }
+      console.log(this.uBaseInfo);
     }
   }
+};
 </script>
-
 <style scoped>
-  .content {
-    height: 300px;
-    background-color: red;
-    overflow: hidden;
-  }
+#profile {
+  font-size: 0.68rem;
+  background-color: rgba(190, 190, 190, 0.2);
+  height: 100vh;
+}
+.login_out {
+  font-size: 0.8rem;
+  color: white;
+
+  width: 15rem;
+  height: 2rem;
+  line-height: 2rem;
+  margin: 0 auto;
+
+  background-color: var(--color-high-text);
+  border-radius: 0.2rem;
+
+  text-align: center;
+}
 </style>
