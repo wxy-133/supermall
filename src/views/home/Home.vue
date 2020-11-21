@@ -131,6 +131,7 @@
       },
       loadMore() {
         this.getHomeGoods(this.currentType)
+        console.log("上拉了");
       },
       imagsLoad(){
          //
