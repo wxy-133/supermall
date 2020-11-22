@@ -50,7 +50,7 @@ export default {
   position: relative;
 }
 .link_BG {
-  width: 15rem;
+  width: ;
   height: 5.5rem;
   margin: 2rem auto 0rem;
 

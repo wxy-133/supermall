@@ -86,7 +86,7 @@ export default {
   font-size: 0.8rem;
   color: white;
 
-  width: 15rem;
+  width: ;
   height: 2rem;
   line-height: 2rem;
   margin: 0 auto;

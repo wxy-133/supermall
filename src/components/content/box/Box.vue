@@ -20,7 +20,7 @@ export default {
 </script>
 <style scoped>
 #box {
-  width: 15rem;
+  width: ;
   margin: 0 auto;
   background-color: #fff;
   border-radius: 0.5rem;
